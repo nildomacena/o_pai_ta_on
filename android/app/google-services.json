@@ -1,0 +1,109 @@
+{
+  "project_info": {
+    "project_number": "1091015664765",
+    "firebase_url": "https://o-pai-ta-on.firebaseio.com",
+    "project_id": "o-pai-ta-on",
+    "storage_bucket": "o-pai-ta-on.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091015664765:android:a2aee30c0d0b055c57fd14",
+        "android_client_info": {
+          "package_name": "br.com.hagiosdev.o_pai_ta_on"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091015664765-4rd1lt6k693r970puquifp1p9nn1hodb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.hagiosdev.o_pai_ta_on",
+            "certificate_hash": "80e4eccecca3e9060a938875f4405114b40aeadd"
+          }
+        },
+        {
+          "client_id": "1091015664765-dlllm5qjahkc7smlg6flc7s9nkc8coth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.hagiosdev.o_pai_ta_on",
+            "certificate_hash": "4506c42ba55c4626fe36a3a991f436982ccd09e8"
+          }
+        },
+        {
+          "client_id": "1091015664765-rfok8j2duotfc0v7e5l8fpmbibmha28p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.hagiosdev.o_pai_ta_on",
+            "certificate_hash": "cdfa886e0b60f642c1b20616f0e771c9b81368fc"
+          }
+        },
+        {
+          "client_id": "1091015664765-qt6l77lbq28rbj0rpgbo0jmiiv7ofnlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh0Zs3P_JFnr9XsB6f-J8-AG7j6KeiIfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091015664765-qt6l77lbq28rbj0rpgbo0jmiiv7ofnlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091015664765:android:5db1fd41e801dc7f57fd14",
+        "android_client_info": {
+          "package_name": "com.hagios.o_pai_ta_on"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091015664765-4950l9nja9aeee44srmmbiui84mro9t9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hagios.o_pai_ta_on",
+            "certificate_hash": "4aa87ebfb99756310e5cfd2e90b027da2559bff3"
+          }
+        },
+        {
+          "client_id": "1091015664765-t7kja76c74jsj4isddfpmlpe4j7kjivk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hagios.o_pai_ta_on",
+            "certificate_hash": "29fcfb3e0131f700d3d65ede779f7ddf8195cac2"
+          }
+        },
+        {
+          "client_id": "1091015664765-qt6l77lbq28rbj0rpgbo0jmiiv7ofnlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh0Zs3P_JFnr9XsB6f-J8-AG7j6KeiIfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091015664765-qt6l77lbq28rbj0rpgbo0jmiiv7ofnlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
