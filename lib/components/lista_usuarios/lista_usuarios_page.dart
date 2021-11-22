@@ -107,11 +107,19 @@ class ListaUsuarios extends StatelessWidget {
                     return AnimationLimiter(
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount:
-                            _.usuarios.isNotEmpty ? _.usuarios.length : 1,
+                        itemCount: _.usuarios.isNotEmpty
+                            ? _.usuarios.length + (_.isAdLoaded ? 1 : 0)
+                            : 1,
                         itemBuilder: (BuildContext context, int index) {
                           if (_.usuarios.isEmpty) {
                             return futureBuilderPlaceholder;
+                          }
+                          if (_.isAdLoaded && _.isIndexAd(index)) {
+                            return Container(
+                                color: Colors.white,
+                                width: Get.width,
+                                height: 70,
+                                child: AdWidget(ad: _.ad));
                           }
                           return AnimationConfiguration.staggeredList(
                             position: index,
@@ -119,7 +127,8 @@ class ListaUsuarios extends StatelessWidget {
                             child: SlideAnimation(
                                 verticalOffset: 50.0,
                                 child: FadeInAnimation(
-                                    child: CardUsuario(_.usuarios[index]))),
+                                    child: CardUsuario(_
+                                        .usuarios[_.getIndexRealITem(index)]))),
                           );
                         },
                       ),

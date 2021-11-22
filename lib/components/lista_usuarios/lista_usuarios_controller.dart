@@ -14,6 +14,11 @@ class ListaUsuariosController extends GetxController {
   final RxBool _preencheuPerfil = RxBool(false);
   final FirestoreProvider firestoreProvider = Get.find();
   final AuthProvider authProvider = Get.find();
+  static const _kAdIndex = 4;
+
+  late NativeAd ad;
+  bool isAdLoaded = false;
+
   bool possuiFiltros = false;
   final BannerAd bannerAd = BannerAd(
     adUnitId: kDebugMode
@@ -33,22 +38,50 @@ class ListaUsuariosController extends GetxController {
   void onInit() {
     _preencheuPerfil.bindStream(authProvider.preencheuPerfil());
     updateStreamUsuarios();
-    /*   firestoreProvider.streamUsuarios().listen((u) {
-      print('usuarios: $u');
-      usuarios = u;
-      /*   if (kDebugMode && usuarios != null) {
-        usuarios = [
-          ...usuarios!,
-          ...usuarios!,
-          ...usuarios!,
-          ...usuarios!,
-          ...usuarios!
-        ];
-      } */
-      bannerAd.load();
-      update();
-    }); */
+    preparaAnuncio();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    ad.dispose();
+    bannerAd.dispose();
+    super.onClose();
+  }
+
+  preparaAnuncio() async {
+    ad = NativeAd(
+      adUnitId: kDebugMode
+          ? NativeAd.testAdUnitId
+          : 'ca-app-pub-8822334834267652/2456513112',
+      factoryId: 'listTile',
+      request: AdRequest(),
+      listener: NativeAdListener(
+        onAdLoaded: (_) {
+          isAdLoaded = true;
+          update();
+        },
+        onAdFailedToLoad: (ad, error) {
+          // Releases an ad resource when it fails to load
+          ad.dispose();
+
+          print('Ad load failed (code=${error.code} message=${error.message})');
+        },
+      ),
+    );
+    await ad.load();
+    update();
+  }
+
+  bool isIndexAd(int index) {
+    return index == _kAdIndex;
+  }
+
+  int getIndexRealITem(int rawIndex) {
+    if (rawIndex >= _kAdIndex && isAdLoaded) {
+      return rawIndex - 1;
+    }
+    return rawIndex;
   }
 
   updateStreamUsuarios(

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+            <TextView
             android:id="@+id/tv_list_tile_native_ad_attribution_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/iv_list_tile_native_ad_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="59dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
@@ -30,8 +30,8 @@
 
         <TextView
             android:id="@+id/tv_list_tile_native_ad_attribution_large"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="60dp"
+            android:layout_height="76dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
@@ -42,8 +42,8 @@
             android:visibility="invisible" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="319dp"
+            android:layout_height="74dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="80dp"
             android:layout_marginLeft="80dp"
