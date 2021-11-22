@@ -18,6 +18,10 @@ class InserirDadosRepository {
         id, kd, plataforma, forma, modo, estado);
   }
 
+  Stream<bool> preencheuPerfil() {
+    return authProvider.preencheuPerfil();
+  }
+
   logout() {
     authProvider.logout();
   }

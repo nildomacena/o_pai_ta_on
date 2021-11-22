@@ -9,24 +9,50 @@ class HomePage extends GetWidget<HomeController> {
   Widget build(BuildContext context) {
     return SafeArea(child: GetBuilder<HomeController>(
       builder: (_) {
-        return Scaffold(
-          body: _.paginaAtual,
-          bottomNavigationBar: GetBuilder<HomeController>(
-            builder: (_) {
-              return BottomNavigationBar(
-                currentIndex: _.indexBottomNavigation,
-                onTap: (int index) {
-                  _.setIndex(index);
+        return Stack(
+          children: [
+            Scaffold(
+              body: _.paginaAtual,
+              bottomNavigationBar: GetBuilder<HomeController>(
+                builder: (_) {
+                  return BottomNavigationBar(
+                    currentIndex: _.indexBottomNavigation,
+                    onTap: (int index) {
+                      _.setIndex(index);
+                    },
+                    items: [
+                      const BottomNavigationBarItem(
+                          icon: Icon(Icons.list), label: 'Lista'),
+                      BottomNavigationBarItem(
+                          icon: Stack(
+                            children: [
+                              const Icon(Icons.person),
+                              Positioned(
+                                bottom: 14,
+                                right: 0,
+                                child: GetX<HomeController>(builder: (_) {
+                                  if (_.preencheuPerfil) {
+                                    return Container();
+                                  } else {
+                                    return Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.red),
+                                    );
+                                  }
+                                }),
+                              )
+                            ],
+                          ),
+                          label: 'Conta'),
+                    ],
+                  );
                 },
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.list), label: 'Lista'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: 'Conta'),
-                ],
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         );
       },
     ));

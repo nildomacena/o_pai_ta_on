@@ -26,9 +26,49 @@ class ListaUsuarios extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 300)).then((value) {
-      bannerAd!.load();
-      adWidget = AdWidget(ad: bannerAd!);
+      try {
+        bannerAd!.load();
+        adWidget = AdWidget(ad: bannerAd!);
+      } catch (e) {
+        print('Erro ao carregar banner: $e');
+      }
     });
+    Widget futureBuilderPlaceholder = FutureBuilder(
+        future: Future.delayed(const Duration(seconds: 5)),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.none:
+              return SizedBox(
+                height: Get.height,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            default:
+              return Container(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Não foram encontrados usuários para os filtros selecionados',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: ElevatedButton(
+                        child: const Text('LIMPAR FILTROS'),
+                        onPressed: () {
+                          controller.limparFiltros();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              );
+          }
+        });
 
     return GetBuilder<ListaUsuariosController>(
       builder: (_) {
@@ -41,26 +81,50 @@ class ListaUsuarios extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: AnimationLimiter(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.usuarios != null
-                          ? controller.usuarios!.length
-                          : 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(milliseconds: 500),
-                          child: SlideAnimation(
-                              verticalOffset: 50.0,
-                              child: FadeInAnimation(
-                                  child: CardUsuario(_.usuarios![index]))),
-                        );
-                      },
-                    ),
-                  ),
+                  child: GetX<ListaUsuariosController>(builder: (_) {
+                    if (!_.preencheuPerfil) {
+                      return Container(
+                          margin: const EdgeInsets.only(
+                              top: 20, right: 10, bottom: 400),
+                          height: 70,
+                          width: Get.width,
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Card(
+                              child: Container(
+                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: const Text(
+                                'Preencha o seu perfil para que as pessoas possam te achar\nClique no menu no canto inferior direito e coloque seus dados',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold)),
+                          )));
+                    }
+                    return AnimationLimiter(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            _.usuarios.isNotEmpty ? _.usuarios.length : 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (_.usuarios.isEmpty) {
+                            return futureBuilderPlaceholder;
+                          }
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 500),
+                            child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                    child: CardUsuario(_.usuarios[index]))),
+                          );
+                        },
+                      ),
+                    );
+                  }),
                 ),
                 Container(
                   //margin: const EdgeInsets.only(top: 20),

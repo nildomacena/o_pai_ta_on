@@ -25,13 +25,37 @@ class FirestoreProvider {
         .concurrentAsyncExpand((user) => streamUsuarioByUser(user)));
   }
 
-  Stream<List<Usuario>> streamUsuarios() {
-    return _firestore
+  Stream<List<Usuario>> streamUsuarios(
+      [double? kdInicial,
+      double? kdFinal,
+      String? modo,
+      String? forma,
+      String? estado,
+      String? plataforma]) {
+    Query query = _firestore
         .collection('usuarios')
-        .where('preencheuPerfil', isEqualTo: true)
-        .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((s) => Usuario.fromFirestore(s)).toList());
+        .where('preencheuPerfil', isEqualTo: true);
+    if (kdInicial != null) {
+      query = query.where('kd', isGreaterThanOrEqualTo: kdInicial);
+    }
+    if (kdFinal != null) {
+      query = query.where('kd', isLessThanOrEqualTo: kdFinal);
+    }
+    if (forma != null) {
+      query = query.where('forma', isEqualTo: forma);
+    }
+    if (modo != null) {
+      query = query.where('modo', isEqualTo: modo);
+    }
+    if (plataforma != null) {
+      query = query.where('plataforma', isEqualTo: plataforma);
+    }
+    if (kdFinal == null && kdInicial == null) {
+      query = query.orderBy('timestamp', descending: true);
+    }
+    print(plataforma);
+    return query.snapshots().map((snapshot) =>
+        snapshot.docs.map((s) => Usuario.fromFirestore(s)).toList());
   }
 
   Future<List<Usuario>> getUsuarios() async {

@@ -18,14 +18,20 @@ class InserirDadosController extends GetxController {
   TextEditingController nomeController = TextEditingController();
   TextEditingController kdController = MaskedTextController(mask: '0.00');
   TextEditingController idController = TextEditingController();
+  final Rx<bool> _preencheuPerfil = Rx<bool>(false);
 
   FocusNode idFocus = FocusNode();
   FocusNode kdFocus = FocusNode();
 
   ScrollController scrollController = ScrollController();
 
+  set preencheuPerfil(bool value) => _preencheuPerfil.value = value;
+  bool get preencheuPerfil => _preencheuPerfil.value;
+
   @override
   onInit() {
+    _preencheuPerfil.bindStream(repository.preencheuPerfil());
+
     updateDadosUsuario();
     /*  if (kDebugMode) {
       kdController.text = '1.49';

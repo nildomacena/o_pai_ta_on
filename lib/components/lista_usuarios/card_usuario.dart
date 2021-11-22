@@ -44,10 +44,10 @@ class CardUsuario extends StatelessWidget {
                   )
                 ],
               ),
-              Text(
+              /*      Text(
                 usuario.nome!,
                 style: style,
-              ),
+              ), */
               Text(
                 'K/D: ${usuario.kd!}',
                 style: style,
@@ -65,6 +65,11 @@ class CardUsuario extends StatelessWidget {
                         : 'Joga bem safe'),
                 style: style,
               ),
+              if (usuario.plataforma != null)
+                Text(
+                  'Plataforma: ${usuario.nomePlataforma}',
+                  style: style,
+                ),
               if (usuario.estado != null && usuario.estado != '')
                 Text(
                   'De ${UtilService().estadoSiglaNome(usuario.estado!)}',

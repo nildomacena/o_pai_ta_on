@@ -14,6 +14,7 @@ import 'package:o_pai_ta_on/routes/app_routes.dart';
 class HomeController extends GetxController {
   final HomeRepository repository;
   final Rxn<Usuario> _usuario = Rxn<Usuario>(null);
+  final Rx<bool> _preencheuPerfil = Rx<bool>(false);
   int indexBottomNavigation = 0;
   List<Widget> pages = [
     ListaUsuarios(),
@@ -22,11 +23,15 @@ class HomeController extends GetxController {
 
   HomeController(this.repository) {
     _usuario.bindStream(repository.streamUsuario());
+    _preencheuPerfil.bindStream(repository.preencheuPerfil());
     repository.streamUsuario().first.then((value) => usuario = value);
   }
 
   set usuario(Usuario? value) => _usuario.value = value;
   Usuario? get usuario => _usuario.value;
+
+  set preencheuPerfil(bool value) => _preencheuPerfil.value = value;
+  bool get preencheuPerfil => _preencheuPerfil.value;
 
   Widget get paginaAtual => pages[indexBottomNavigation];
 

@@ -15,6 +15,10 @@ class HomeRepository {
     return firestoreProvider.getUsuario();
   }
 
+  Stream<bool> preencheuPerfil() {
+    return authProvider.preencheuPerfil();
+  }
+
   logout() {
     authProvider.logout();
   }

@@ -45,6 +45,32 @@ class InserirDadosPage extends StatelessWidget {
     );
   }
 
+  Widget cardAviso() {
+    return GetX<InserirDadosController>(
+      builder: (_) {
+        if (_.preencheuPerfil) {
+          return Container();
+        }
+        return Container(
+            margin: const EdgeInsets.only(top: 20, right: 10),
+            height: 70,
+            width: Get.width,
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Card(
+                child: Container(
+              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              child: const Text(
+                  'Preencha o seu perfil para que as pessoas possam te achar',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold)),
+            )));
+      },
+    );
+  }
+
   Widget nomeIdCampo() {
     return SizedBox(
       width: Get.width,
@@ -411,6 +437,7 @@ class InserirDadosPage extends StatelessWidget {
           ListView(
             controller: controller.scrollController,
             children: [
+              cardAviso(),
               nomeIdCampo(),
               const Padding(padding: EdgeInsets.all(5)),
               const Divider(

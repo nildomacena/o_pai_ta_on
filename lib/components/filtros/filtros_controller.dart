@@ -1,50 +1,117 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:o_pai_ta_on/model/modo_model.dart';
+import 'package:o_pai_ta_on/shared/util_service.dart';
 
 class FiltrosController extends GetxController {
   TextEditingController kdInicial = TextEditingController();
   TextEditingController kdFinal = TextEditingController();
-
-  List<Modo> modosSelecionados = [];
+  String plataformaSelecionada = '';
+  String formaJogoSelecionada = '';
+  Modo? modoSelecionado;
+  bool possuiFiltros = false;
   List<Map<String, String>> formasDeJogo = [
     {'sigla': 'rush', 'nome': 'Rushando'},
     {'sigla': 'mix', 'rush': 'Mix'},
     {'sigla': 'safe', 'rush': 'Safe'},
   ];
 
-  Map<String, String>? formaSelecionada;
-  bool modoSelecionado(Modo modo) {
-    bool contem = false;
-    for (var m in modosSelecionados) {
-      if (modo.sigla.contains(m.sigla)) contem = true;
+  FiltrosController() {
+    if (Get.arguments != null && Get.arguments['filtros'] != null) {
+      var filtros = Get.arguments['filtros'];
+      if (filtros['kdInicial'] != null) {
+        kdInicial.text = filtros['kdInicial'].toString();
+      }
+      if (filtros['kdFinal'] != null) {
+        kdFinal.text = Get.arguments['filtros']['kdFinal'].toString();
+      }
+      if (filtros['plataformaSelecionada'] != null) {
+        plataformaSelecionada = filtros['plataformaSelecionada'];
+      }
+      if (filtros['modo'] != null) {
+        modoSelecionado =
+            UtilService().MODOS.firstWhere((m) => m.sigla == filtros['modo']);
+      }
+      if (filtros['forma'] != null) {
+        formaJogoSelecionada = filtros['forma'];
+      }
+      if (filtros['plataforma'] != null) {
+        plataformaSelecionada = filtros['plataforma'];
+      }
     }
-    return contem;
+    update();
   }
+
+  bool isModoSelecionado(Modo m) =>
+      modoSelecionado == null ? false : m.sigla == modoSelecionado!.sigla;
+  bool get mostrarBotao =>
+      kdInicial.text != '' ||
+      kdFinal.text != '' ||
+      plataformaSelecionada != '' ||
+      formaJogoSelecionada != '' ||
+      modoSelecionado != null;
 
   selecionarModo(Modo modo) {
-    if (modosSelecionados.isEmpty) {
-      modosSelecionados.add(modo);
-    } else if (modoSelecionado(modo)) {
-      modosSelecionados.removeAt(
-          modosSelecionados.indexWhere((m) => m.sigla.contains(modo.sigla)));
+    if (modoSelecionado != null && modo.sigla == modoSelecionado!.sigla) {
+      modoSelecionado = null;
     } else {
-      modosSelecionados.add(modo);
+      modoSelecionado = modo;
     }
-    print('Modos: $modosSelecionados');
     update();
   }
 
-  /* selecionarForma(Map<String, String> modo) {
-    if (modosSelecionados.isEmpty) {
-      modosSelecionados.add(modo);
-    } else if (modoSelecionado(modo)) {
-      modosSelecionados.removeAt(
-          modosSelecionados.indexWhere((m) => m.sigla.contains(modo.sigla)));
-    } else {
-      modosSelecionados.add(modo);
-    }
-    print('Modos: $modosSelecionados');
+  onKdSubmitted() {
     update();
-  } */
+  }
+
+  selecionaPlataforma(String plataforma) {
+    if (plataformaSelecionada == plataforma) {
+      plataformaSelecionada = '';
+    } else {
+      plataformaSelecionada = plataforma;
+    }
+    update();
+  }
+
+  selecionaFormaJogo(String forma) {
+    if (formaJogoSelecionada == forma) {
+      formaJogoSelecionada = '';
+    } else {
+      formaJogoSelecionada = forma;
+    }
+    update();
+  }
+
+  definirFiltros() {
+    Map<String, dynamic> filtros = {};
+    if (kdInicial.text != '') {
+      filtros['kdInicial'] = double.parse(kdInicial.text);
+    }
+    if (kdFinal.text != '') {
+      filtros['kdFinal'] = double.parse(kdFinal.text);
+    }
+    if (plataformaSelecionada != '') {
+      filtros['plataformaSelecionada'] = plataformaSelecionada;
+    }
+    if (modoSelecionado != null) {
+      filtros['modo'] = modoSelecionado!.sigla;
+    }
+    if (formaJogoSelecionada != '') {
+      filtros['forma'] = formaJogoSelecionada;
+    }
+    if (plataformaSelecionada != '') {
+      filtros['plataforma'] = plataformaSelecionada;
+    }
+
+    Get.back(result: filtros);
+  }
+
+  limparFiltros() {
+    kdInicial.text = '';
+    kdFinal.text = '';
+    plataformaSelecionada = '';
+    modoSelecionado = null;
+    formaJogoSelecionada = '';
+    update();
+  }
 }

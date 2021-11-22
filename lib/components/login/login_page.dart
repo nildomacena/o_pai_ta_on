@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:o_pai_ta_on/components/login/login_controller.dart';
 import 'package:o_pai_ta_on/data/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +9,18 @@ import 'package:video_player/video_player.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController controller = Get.find();
-
-  LoginPage({Key? key}) : super(key: key);
+  BannerAd? bannerAd;
+  AdWidget? adWidget;
+  LoginPage({Key? key}) : super(key: key) {
+    bannerAd = BannerAd(
+      adUnitId: kDebugMode
+          ? BannerAd.testAdUnitId
+          : 'ca-app-pub-8822334834267652/2104131655',
+      size: AdSize.fullBanner,
+      request: const AdRequest(),
+      listener: const BannerAdListener(),
+    );
+  }
 
   Widget splashcreenContainer() {
     return SizedBox(
@@ -101,7 +113,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 30,
+            bottom: 140,
             child: Container(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 width: Get.width,
@@ -112,6 +124,16 @@ class LoginPage extends StatelessWidget {
                   },
                 )),
           ),
+          Positioned(
+            bottom: -40,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              alignment: Alignment.center,
+              child: adWidget,
+              width: Get.width,
+              height: 100,
+            ),
+          ),
         ],
       ),
     );
@@ -119,6 +141,10 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      bannerAd!.load();
+      adWidget = AdWidget(ad: bannerAd!);
+    });
     return Scaffold(
       body: SafeArea(child: GetBuilder<LoginController>(
         builder: (_) {

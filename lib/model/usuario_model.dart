@@ -26,6 +26,12 @@ class Usuario {
       this.plataforma,
       this.ultimoLogin});
 
+  String get nomePlataforma => plataforma == 'battle'
+      ? 'PC'
+      : plataforma == 'ps'
+          ? 'PlayStation'
+          : 'XBOX';
+
   factory Usuario.fromFirestore(DocumentSnapshot snapshot) {
     if (snapshot.data() == null) throw 'usuario-nulo';
     Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;

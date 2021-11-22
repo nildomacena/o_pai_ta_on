@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 class AuthProvider {
   final FirebaseAuth _auth = Get.find();
@@ -57,6 +58,37 @@ class AuthProvider {
       return true;
     }
     return true;
+  }
+
+  Stream<bool> preencheuPerfil() {
+    if (_auth.currentUser == null) return Stream.value(false);
+    return _firestore
+        .doc('usuarios/${_auth.currentUser!.uid}')
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.data()!['preencheuPerfil'] != null) {
+        return snapshot.data()!['preencheuPerfil'] as bool;
+      } else {
+        return false;
+      }
+    });
+
+    /* .map((user) {
+      if (user == null) {
+        return false;
+      } else {
+        return _firestore
+            .doc('usuarios/${user.uid}')
+            .snapshots()
+            .map((snapshot) {
+          if (snapshot.data()!['preencheuPerfil'] != null) {
+            return snapshot.data()!['preencheuPerfil'] as bool;
+          } else {
+            return false;
+          }
+        });
+      }
+    }); */
   }
 
   updateUltimoLogin(User user) async {
