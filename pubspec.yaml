@@ -55,6 +55,8 @@ dependencies:
   get_storage: ^2.0.3
   google_mobile_ads: ^0.13.6
   font_awesome_flutter: ^9.2.0
+  flutter_windowmanager: ^0.2.0
+
   
 dev_dependencies:
   flutter_test:
